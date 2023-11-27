@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proxy Suite Interface</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+        }
+
+        #container {
+            width: 80%;
+            margin: 0 auto;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-top: 20px;
+            border-radius: 5px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        input, textarea, button {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: #4caf50;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        #response {
+            width: 100%;
+            min-height: 200px;
+            border: 1px solid #ddd;
+            padding: 10px;
+            box-sizing: border-box;
+            background-color: #fff;
+            overflow-y: auto;
+        }
+    </style>
+</head>
+<body>
+    <div id="container">
+        <h2>Proxy Suite Interface</h2>
+        <label for="proxyHost">Proxy Host:</label>
+        <input type="text" id="proxyHost" placeholder="Enter proxy host...">
+        
+        <label for="proxyPort">Proxy Port:</label>
+        <input type="number" id="proxyPort" placeholder="Enter proxy port...">
+
+        <label for="requestInput">Request:</label>
+        <textarea id="requestInput" placeholder="Enter your request here..."></textarea>
+        
+        <button onclick="sendRequest()">Send Request</button>
+
+        <h3>Response:</h3>
+        <div id="response"></div>
+    </div>
+
+    <script>
+        function sendRequest() {
+            var proxyHost = document.getElementById('proxyHost').value;
+            var proxyPort = document.getElementById('proxyPort').value;
+            var requestInput = document.getElementById('requestInput').value;
+
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState == 4) {
+                    document.getElementById('response').innerHTML = xhr.responseText;
+                }
+            };
+
+            xhr.open("POST", `http://${proxyHost}:${proxyPort}`, true);
+            xhr.setRequestHeader("Content-Type", "text/plain");
+            xhr.send(requestInput);
+        }
+    </script>
+</body>
+</html>
+
